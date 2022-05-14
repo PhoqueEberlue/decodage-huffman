@@ -17,9 +17,18 @@ private:
 
 public:
     Alphabet() = default;
+
     void setNumCharacters(int numCharacters) { this->num_characters = numCharacters; }
+
     void addCharacterToList(Character character) { this->listCharacter.push_front(character);}
+
     void generateAlphabet(const std::string& filePath);
+
+    void sortAlphabetByOccurrences();
+
+    void sortAlphabetByASCIICodes();
+
+    void printAlphabet();
 };
 
 #endif //DECODAGE_HUFFMAN_ALPHABET_H
