@@ -9,6 +9,12 @@ class Character {
 public:
     Character(unsigned int characterCode, unsigned int occurrences);
 
+    [[nodiscard]] unsigned int getOccurrences() const { return this->occurrences; }
+
+    [[nodiscard]] unsigned int getCharacterCode() const { return this->characterCode; }
+
+    void printCharacter() const;
+
 private:
     unsigned int characterCode;
     unsigned int occurrences;
