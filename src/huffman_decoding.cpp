@@ -7,4 +7,7 @@
 void mainDecode(const std::string& filePath) {
     std::unique_ptr<Alphabet> alphabet(new Alphabet());
     alphabet->generateAlphabet(filePath);
+    alphabet->sortAlphabetByOccurrences();
+    alphabet->sortAlphabetByASCIICodes();
+    alphabet->printAlphabet();
 }
