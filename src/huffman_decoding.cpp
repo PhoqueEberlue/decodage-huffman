@@ -3,11 +3,21 @@
 //
 
 #include "huffman_decoding.h"
+#include "alphabet.h"
+#include "tree.h"
 
 void mainDecode(const std::string& filePath) {
-    std::unique_ptr<Alphabet> alphabet(new Alphabet());
+    auto *alphabet = new Alphabet();
+
     alphabet->generateAlphabet(filePath);
     alphabet->sortAlphabetByOccurrences();
     alphabet->sortAlphabetByASCIICodes();
     alphabet->printAlphabet();
+
+    auto *tree = new Tree();
+
+    tree->generateNodeList(alphabet);
+    tree->printNodeList();
+
+  
 }

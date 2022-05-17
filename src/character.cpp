@@ -11,5 +11,5 @@ void Character::printCharacter() const {
     /*
      * Prints the Character's data
      */
-    printf("%c %i", this->characterCode, this->occurrences);
+    printf("%c %i\n", this->characterCode, this->occurrences);
 }

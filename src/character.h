@@ -4,10 +4,13 @@
 
 #ifndef DECODAGE_HUFFMAN_CHARACTER_H
 #define DECODAGE_HUFFMAN_CHARACTER_H
+#include <iostream>
 
 class Character {
 public:
     Character(unsigned int characterCode, unsigned int occurrences);
+
+    ~Character() { std::cout << "Character's destructor called" << std::endl; }
 
     [[nodiscard]] unsigned int getOccurrences() const { return this->occurrences; }
 

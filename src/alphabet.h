@@ -12,7 +12,7 @@
 
 class Alphabet {
 private:
-    std::list<Character> listCharacter = {};
+    std::list<std::shared_ptr<Character>> *listCharacter = new std::list<std::shared_ptr<Character>>();
     unsigned int num_characters = 0;
 
 public:
@@ -20,7 +20,9 @@ public:
 
     void setNumCharacters(int numCharacters) { this->num_characters = numCharacters; }
 
-    void addCharacterToList(Character character) { this->listCharacter.push_front(character);}
+    std::list<std::shared_ptr<Character>> *getListCharacter() { return this->listCharacter; }
+
+    void addCharacterToList(const std::shared_ptr<Character>& character) { this->listCharacter->push_front(character);}
 
     void generateAlphabet(const std::string& filePath);
 
