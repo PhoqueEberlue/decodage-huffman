@@ -12,33 +12,37 @@
 
 class Node {
 private:
-    Node *leftChild;
-    Node *rightChild;
+    std::shared_ptr<Node> leftChild;
+    std::shared_ptr<Node> rightChild;
     std::shared_ptr<Character> character;
     bool isLeaf;
 
 
-    Node(Node *leftChild, Node *rightChild) : leftChild(leftChild), rightChild(rightChild), isLeaf(false), character(
-            nullptr) {}
-
 public:
-    explicit Node(std::shared_ptr<Character> character) : character(std::move(character)), isLeaf(true), leftChild(nullptr), rightChild(nullptr) {}
+    explicit Node(std::shared_ptr<Character> character) : character(std::move(character)), isLeaf(true),
+                                                          leftChild(nullptr), rightChild(nullptr) {}
 
-    ~Node() { std::cout << "MACRON EXPLOSION" << std::endl ; }
+    Node(std::shared_ptr<Node> leftChild, std::shared_ptr<Node> rightChild, std::shared_ptr<Character> character):
+              leftChild(std::move(leftChild)),
+              rightChild(std::move(rightChild)),
+              isLeaf(false),
+              character(std::move(character)) {}
 
-    [[nodiscard]] Node *getLeftChild() const {
+    ~Node() { std::cout << "deleting node" << std::endl; }
+
+    [[nodiscard]] std::shared_ptr<Node> getLeftChild() const {
         return leftChild;
     }
 
-    void setLeftChild(Node *leftChild) {
+    void setLeftChild(std::shared_ptr<Node> leftChild) {
         Node::leftChild = leftChild;
     }
 
-    [[nodiscard]] Node *getRightChild() const {
+    [[nodiscard]] std::shared_ptr<Node> getRightChild() const {
         return rightChild;
     }
 
-    void setRightChild(Node *rightChild) {
+    void setRightChild(std::shared_ptr<Node> rightChild) {
         Node::rightChild = rightChild;
     }
 
