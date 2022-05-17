@@ -6,7 +6,7 @@
 #include <fstream>
 #include <iostream>
 
-void Alphabet::generateAlphabet(const std::string& filePath) {
+void Alphabet::generateAlphabet(const std::string &filePath) {
     /*
      * Generates the Alphabet corresponding to the given file
      * Parameter: the path of the file

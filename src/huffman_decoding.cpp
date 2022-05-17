@@ -18,4 +18,6 @@ void mainDecode(const std::string& filePath) {
 
     tree->generateNodeList(alphabet);
     tree->printNodeList();
+
+  
 }

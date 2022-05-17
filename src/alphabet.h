@@ -17,6 +17,7 @@ private:
 
 public:
     Alphabet() = default;
+
     void setNumCharacters(int numCharacters) { this->num_characters = numCharacters; }
 
     std::list<std::shared_ptr<Character>> *getListCharacter() { return this->listCharacter; }

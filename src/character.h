@@ -10,7 +10,7 @@ class Character {
 public:
     Character(unsigned int characterCode, unsigned int occurrences);
 
-    ~Character() { std::cout << "MACRON DESTITUTION" << std::endl; }
+    ~Character() { std::cout << "Character's destructor called" << std::endl; }
 
     [[nodiscard]] unsigned int getOccurrences() const { return this->occurrences; }
 
