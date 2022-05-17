@@ -19,5 +19,6 @@ void mainDecode(const std::string& filePath) {
     tree->generateNodeList(alphabet);
     tree->printNodeList();
 
-  
+    tree->generateTree();
+    tree->printTree(tree->getRoot(), 0);
 }
