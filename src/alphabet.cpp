@@ -41,12 +41,41 @@ void Alphabet::generateAlphabet(const std::string& filePath) {
             std::cout << occurrences << std::endl;
 
             // Create a new Character class and adds it to the list
-            auto *new_char = new Character(character_code, occurrences);
-            this->addCharacterToList(*new_char);
+            std::shared_ptr<Character> new_char = std::make_unique<Character>(character_code, occurrences);
+            this->addCharacterToList(new_char);
         }
     } else {
         printf("The specified path didn't match any file");
     }
 }
 
+void Alphabet::sortAlphabetByOccurrences() {
+    /*
+     * Sort the Alphabet by occurrences
+     * Does not return anything, modifies the list directly
+     */
+    this->listCharacter->sort(
+            [](std::shared_ptr<Character> const &a, std::shared_ptr<Character> const &b) -> bool {
+                return a->getOccurrences() < b->getOccurrences();
+            });
+}
 
+void Alphabet::sortAlphabetByASCIICodes() {
+    /*
+     * Sort the Alphabet by ASCII Codes (keeps the occurrences order)
+     * Does not return anything, modifies the list directly
+     */
+    this->listCharacter->sort([](std::shared_ptr<Character> const &a, std::shared_ptr<Character> const &b) -> bool {
+        return a->getCharacterCode() < b->getCharacterCode() && a->getOccurrences() == b->getOccurrences();
+    });
+}
+
+void Alphabet::printAlphabet() {
+    /*
+     * Prints each Character of the Alphabet
+     */
+    for (const std::shared_ptr<Character>& character: *this->listCharacter) {
+        character->printCharacter();
+        printf("\n");
+    }
+}
