@@ -12,7 +12,7 @@
 class Tree {
 private:
     std::list<std::shared_ptr<Node>> *nodeList = new std::list<std::shared_ptr<Node>>();
-    Node *root;
+    std::shared_ptr<Node> root = nullptr;
 
 public:
     Tree() = default;
@@ -20,6 +20,14 @@ public:
     void generateNodeList(Alphabet *alphabet);
 
     void printNodeList();
+
+    void generateTree();
+
+    void insertNewNode(const std::shared_ptr<Node>& newNode);
+
+    void printTree(std::shared_ptr<Node> root, int space);
+
+    [[nodiscard]] const std::shared_ptr<Node> &getRoot() const;
 };
 
 #endif //DECODAGE_HUFFMAN_TREE_H
