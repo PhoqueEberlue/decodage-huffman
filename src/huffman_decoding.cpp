@@ -21,4 +21,8 @@ void mainDecode(const std::string& filePath) {
 
     tree->generateTree();
     tree->printTree(tree->getRoot(), 0);
+
+    std::cout << "Depth of the tree: " << tree->getDepth() << std::endl;
+    tree->callGenerateCodes();
+    alphabet->printAlphabet();
 }

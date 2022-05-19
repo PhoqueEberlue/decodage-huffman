@@ -1,8 +1,10 @@
 //
 // Created by andrewmhdb on 15/05/22.
 //
-
+#include <boost/dynamic_bitset.hpp>
 #include <iostream>
+#include <bitset>
+#include <functional>
 #include "tree.h"
 #include "node.h"
 
@@ -103,4 +105,54 @@ void Tree::printTree(std::shared_ptr<Node> root, int space) {
 
 const std::shared_ptr<Node> &Tree::getRoot() const {
     return root;
+}
+
+void findDepth(int *res, std::shared_ptr<Node> root, int depth) {
+    /*
+     * update the value `res` to get the maximum depth of the tree
+     */
+    // if the current node is a no char node
+    if (root->getCharacter()->getCharacterCode() == 0) {
+        findDepth(res, root->getLeftChild(), depth + 1);
+        findDepth(res, root->getRightChild(), depth + 1);
+    }
+        // if current node is a leaf and the max depth is < to the current depth
+    else if (*res < depth) {
+        *res = depth;
+    }
+}
+
+unsigned int Tree::getDepth() {
+    /*
+     * Compute the depth of the tree and save it to the Object
+     */
+    int res = 0;
+    findDepth(&res, this->getRoot(), 0);
+    this->depth = res;
+
+    return res;
+}
+
+void generateCodes(std::shared_ptr<Node> root, std::shared_ptr<std::vector<bool>> code, unsigned int depth) {
+    /*
+    * Generate binary code for each character
+    */
+    // if the current node is a no char node
+    if (root->getCharacter()->getCharacterCode() == 0) {
+        auto it = code->begin();
+        std::advance(it, depth);
+        code->insert(it, false);
+        ++depth;
+        generateCodes(root->getLeftChild(), code, depth);
+
+        code->insert(it, true);
+        generateCodes(root->getRightChild(), code, depth);
+    } else {
+        root->getCharacter()->setCode(code, depth);
+    }
+}
+
+void Tree::callGenerateCodes() {
+    auto code = std::make_shared<std::vector<bool>>(this->depth);
+    generateCodes(this->root, code, 0);
 }
