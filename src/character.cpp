@@ -11,5 +11,20 @@ void Character::printCharacter() const {
     /*
      * Prints the Character's data
      */
-    printf("%c %i\n", this->characterCode, this->occurrences);
+    printf("%c %i ", this->characterCode, this->occurrences);
+    for (bool bit: this->code) {
+        std::cout << bit;
+    }
+    std::cout << std::endl;
+}
+
+void Character::setCode(const std::shared_ptr<std::vector<bool>> &codeToCopy, unsigned int codeSize) {
+    /*
+     * Set the huffman code of the character
+     * Makes a copy of the parameter code
+     */
+    this->code = std::vector<bool>();
+    for (int i = 0; i < codeSize; i++) {
+        this->code.push_back(codeToCopy->at(i));
+    }
 }

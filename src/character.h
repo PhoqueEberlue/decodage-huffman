@@ -6,8 +6,16 @@
 #define DECODAGE_HUFFMAN_CHARACTER_H
 
 #include <iostream>
+#include <memory>
+#include <vector>
 
 class Character {
+
+private:
+    unsigned int characterCode;
+    unsigned int occurrences;
+    std::vector<bool> code;
+
 public:
     Character(unsigned int characterCode, unsigned int occurrences);
 
@@ -21,9 +29,7 @@ public:
 
     void printCharacter() const;
 
-private:
-    unsigned int characterCode;
-    unsigned int occurrences;
+    void setCode(const std::shared_ptr<std::vector<bool>> &codeToCopy, unsigned int codeSize);
 };
 
 #endif //DECODAGE_HUFFMAN_CHARACTER_H
