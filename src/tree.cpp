@@ -156,3 +156,75 @@ void Tree::callGenerateCodes() {
     auto code = std::make_shared<std::vector<bool>>(this->depth);
     generateCodes(this->root, code, 0);
 }
+
+bool Tree::moveInTree(bool isRight) {
+    /*
+     * Updates the currentNode to move in the tree
+     * Returns true if the next node is a leaf, false instead
+     *
+     */
+    if (isRight) {
+        this->currentNode = this->currentNode->getRightChild();
+    } else {
+        this->currentNode = this->currentNode->getLeftChild();
+    }
+
+    return this->currentNode->isLeaf1();
+}
+
+void Tree::decodeFile(const std::string &filePath, const std::string &outPutFilePath) {
+    /*
+     * Decode the file given in parameter
+     */
+
+    // opens the two files
+    std::ifstream binaryFile(filePath, std::ios::out | std::ios::binary);
+    std::fstream outPutFile;
+    outPutFile.open(outPutFilePath, std::ios::out);
+
+    char charSeq;
+
+    unsigned int characterCount = 0;
+    unsigned int byteCount = 0;
+
+    if (binaryFile.is_open() && outPutFile.is_open()) {
+        // while we haven't reached the end of the file
+        while (!binaryFile.eof()) {
+
+            // read byte
+            binaryFile.read(&charSeq, 1);
+            std::bitset<8> currentByte(charSeq);
+            byteCount++;
+
+            // std::cout << currentByte << std::endl;
+
+            // For each bit in the byte
+            for (int i = 7; i >= 0; i--) {
+                // move in the tree and if it's a leaf
+                if (this->moveInTree(currentByte.test(i))) {
+                    characterCount++;
+
+                    printf("%c", this->currentNode->getCharacter()->getCharacterCode());
+                    outPutFile << (char) this->currentNode->getCharacter()->getCharacterCode();
+                    this->currentNode = this->root;
+                }
+
+                // if we decoded all characters of the text break
+                if (characterCount == this->alphabet->getNumCharacters()) {
+                    break;
+                }
+            }
+        }
+    }
+
+    this->nbByteBinFile = byteCount;
+    this->nbByteDecodedFile = this->alphabet->getNumCharacters();
+
+    binaryFile.close();
+    outPutFile.close();
+}
+
+float Tree::getCompressionRatio() const {
+    std::cout << this->nbByteDecodedFile << std::endl;
+    return 1 - ((float) this->nbByteBinFile / (float) this->nbByteDecodedFile);
+}
