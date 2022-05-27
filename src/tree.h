@@ -16,7 +16,8 @@ private:
     unsigned int depth;
     std::shared_ptr<Node> currentNode = nullptr;
     std::shared_ptr<Alphabet> alphabet;
-
+    unsigned int nbByteBinFile;
+    unsigned int nbByteDecodedFile;
 
 public:
     Tree() = default;
@@ -40,6 +41,8 @@ public:
     bool moveInTree(bool isRight);
 
     void decodeFile(const std::string& filePath, const std::string& outPutFilePath);
+
+    float getCompressionRatio() const;
 };
 
 #endif //DECODAGE_HUFFMAN_TREE_H

@@ -27,4 +27,6 @@ void mainDecode(const std::string& filePath) {
     alphabet->printAlphabet();
 
     tree->decodeFile("../texts/textesimple_comp.bin", "../texts/textesimple_res.txt");
+
+    std::cout << tree->getCompressionRatio();
 }

@@ -190,6 +190,7 @@ void Tree::decodeFile(const std::string &filePath, const std::string &outPutFile
     char charSeq;
 
     unsigned int characterCount = 0;
+    unsigned int byteCount = 0;
 
     if (binaryFile.is_open() && outPutFile.is_open()) {
         // while we haven't reached the end of the file
@@ -198,6 +199,7 @@ void Tree::decodeFile(const std::string &filePath, const std::string &outPutFile
             // read byte
             binaryFile.read(&charSeq, 1);
             std::bitset<8> currentByte(charSeq);
+            byteCount++;
 
             // std::cout << currentByte << std::endl;
 
@@ -220,6 +222,14 @@ void Tree::decodeFile(const std::string &filePath, const std::string &outPutFile
         }
     }
 
+    this->nbByteBinFile = byteCount;
+    this->nbByteDecodedFile = this->alphabet->getNumCharacters();
+
     binaryFile.close();
     outPutFile.close();
+}
+
+float Tree::getCompressionRatio() const {
+    std::cout << this->nbByteDecodedFile << std::endl;
+    return 1 - ((float) this->nbByteBinFile / (float) this->nbByteDecodedFile);
 }
