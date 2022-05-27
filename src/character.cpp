@@ -15,7 +15,7 @@ void Character::printCharacter() const {
     for (bool bit: this->code) {
         std::cout << bit;
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
 }
 
 void Character::setCode(const std::shared_ptr<std::vector<bool>> &codeToCopy, unsigned int codeSize) {
