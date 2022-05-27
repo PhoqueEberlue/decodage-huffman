@@ -79,3 +79,7 @@ void Alphabet::printAlphabet() {
         printf("\n");
     }
 }
+
+unsigned int Alphabet::getNumCharacters() const {
+    return num_characters;
+}

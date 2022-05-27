@@ -22,7 +22,7 @@ private:
 public:
     Tree() = default;
 
-    void generateNodeList(Alphabet *alphabet);
+    void generateNodeList(const std::shared_ptr<Alphabet>& alphabetParam);
 
     void printNodeList();
 

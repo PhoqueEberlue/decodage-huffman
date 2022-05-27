@@ -7,7 +7,7 @@
 #include "tree.h"
 
 void mainDecode(const std::string& filePath) {
-    auto *alphabet = new Alphabet();
+    std::shared_ptr<Alphabet> alphabet = std::make_shared<Alphabet>();
 
     alphabet->generateAlphabet(filePath);
     alphabet->sortAlphabetByOccurrences();
@@ -25,11 +25,8 @@ void mainDecode(const std::string& filePath) {
     std::cout << "Depth of the tree: " << tree->getDepth() << std::endl;
     tree->callGenerateCodes();
     alphabet->printAlphabet();
-<<<<<<< Updated upstream
-=======
 
     tree->decodeFile("../texts/textesimple_comp.bin", "../texts/textesimple_res.txt");
 
     std::cout << tree->getCompressionRatio();
->>>>>>> Stashed changes
 }

@@ -5,28 +5,31 @@
 #include <iostream>
 #include <bitset>
 #include <functional>
+#include <fstream>
 #include "tree.h"
 #include "node.h"
 
-void Tree::generateNodeList(Alphabet *alphabet) {
+void Tree::generateNodeList(const std::shared_ptr<Alphabet>& alphabetParam) {
     /*
      * Generates the node list
      */
-    // for each character in the alphabet, create a node
-    for (const std::shared_ptr<Character> &character: *alphabet->getListCharacter()) {
+    // for each character in the alphabetParam, create a node
+    for (const std::shared_ptr<Character> &character: *alphabetParam->getListCharacter()) {
         std::shared_ptr<Node> node = std::make_shared<Node>(character);
         this->nodeList->push_back(node);
     }
+    this->alphabet = alphabetParam;
 }
 
 void Tree::printNodeList() {
     /*
      * Prints the node list
      */
-    for (std::shared_ptr<Node> node: *this->nodeList) {
+    for (const std::shared_ptr<Node>& node: *this->nodeList) {
         node->printNode();
-        std::cout << &node << std::endl;
+        std::cout << '|';
     }
+    std::cout << std::endl;
 }
 
 void Tree::insertNewNode(const std::shared_ptr<Node> &newNode) {
@@ -45,7 +48,7 @@ void Tree::insertNewNode(const std::shared_ptr<Node> &newNode) {
 
         // loop through the list to find the index to insert
         for (const std::shared_ptr<Node> &node: *this->nodeList) {
-            if (node->getCharacter()->getOccurrences() <= newNode->getCharacter()->getOccurrences()) {
+            if (node->getCharacter()->getOccurrences() >= newNode->getCharacter()->getOccurrences()) {
                 break;
             }
             i++;
@@ -54,7 +57,7 @@ void Tree::insertNewNode(const std::shared_ptr<Node> &newNode) {
         auto it = this->nodeList->begin();
         std::advance(it, i);
 
-        this->nodeList->insert(this->nodeList->cbegin(), newNode);
+        this->nodeList->insert(it, newNode);
     }
 }
 
@@ -83,10 +86,12 @@ void Tree::generateTree() {
 
         // inserting the new node to the list
         this->insertNewNode(newNode);
+        this->printNodeList();
     }
 
     // The last node is then the root of the tree
     this->root = nodeList->front();
+    this->currentNode = this->root;
 }
 
 void Tree::printTree(std::shared_ptr<Node> root, int space) {
