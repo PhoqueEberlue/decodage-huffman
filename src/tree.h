@@ -14,11 +14,14 @@ private:
     std::list<std::shared_ptr<Node>> *nodeList = new std::list<std::shared_ptr<Node>>();
     std::shared_ptr<Node> root = nullptr;
     unsigned int depth;
+    std::shared_ptr<Node> currentNode = nullptr;
+    std::shared_ptr<Alphabet> alphabet;
+
 
 public:
     Tree() = default;
 
-    void generateNodeList(Alphabet *alphabet);
+    void generateNodeList(const std::shared_ptr<Alphabet>& alphabetParam);
 
     void printNodeList();
 
@@ -33,6 +36,10 @@ public:
     unsigned int getDepth();
 
     void callGenerateCodes();
+
+    bool moveInTree(bool isRight);
+
+    void decodeFile(const std::string& filePath, const std::string& outPutFilePath);
 };
 
 #endif //DECODAGE_HUFFMAN_TREE_H

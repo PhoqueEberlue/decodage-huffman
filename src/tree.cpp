@@ -5,28 +5,31 @@
 #include <iostream>
 #include <bitset>
 #include <functional>
+#include <fstream>
 #include "tree.h"
 #include "node.h"
 
-void Tree::generateNodeList(Alphabet *alphabet) {
+void Tree::generateNodeList(const std::shared_ptr<Alphabet>& alphabetParam) {
     /*
      * Generates the node list
      */
-    // for each character in the alphabet, create a node
-    for (const std::shared_ptr<Character> &character: *alphabet->getListCharacter()) {
+    // for each character in the alphabetParam, create a node
+    for (const std::shared_ptr<Character> &character: *alphabetParam->getListCharacter()) {
         std::shared_ptr<Node> node = std::make_shared<Node>(character);
         this->nodeList->push_back(node);
     }
+    this->alphabet = alphabetParam;
 }
 
 void Tree::printNodeList() {
     /*
      * Prints the node list
      */
-    for (std::shared_ptr<Node> node: *this->nodeList) {
+    for (const std::shared_ptr<Node>& node: *this->nodeList) {
         node->printNode();
-        std::cout << &node << std::endl;
+        std::cout << '|';
     }
+    std::cout << std::endl;
 }
 
 void Tree::insertNewNode(const std::shared_ptr<Node> &newNode) {
@@ -45,7 +48,7 @@ void Tree::insertNewNode(const std::shared_ptr<Node> &newNode) {
 
         // loop through the list to find the index to insert
         for (const std::shared_ptr<Node> &node: *this->nodeList) {
-            if (node->getCharacter()->getOccurrences() <= newNode->getCharacter()->getOccurrences()) {
+            if (node->getCharacter()->getOccurrences() >= newNode->getCharacter()->getOccurrences()) {
                 break;
             }
             i++;
@@ -54,7 +57,7 @@ void Tree::insertNewNode(const std::shared_ptr<Node> &newNode) {
         auto it = this->nodeList->begin();
         std::advance(it, i);
 
-        this->nodeList->insert(this->nodeList->cbegin(), newNode);
+        this->nodeList->insert(it, newNode);
     }
 }
 
@@ -83,10 +86,12 @@ void Tree::generateTree() {
 
         // inserting the new node to the list
         this->insertNewNode(newNode);
+        this->printNodeList();
     }
 
     // The last node is then the root of the tree
     this->root = nodeList->front();
+    this->currentNode = this->root;
 }
 
 void Tree::printTree(std::shared_ptr<Node> root, int space) {
@@ -155,4 +160,66 @@ void generateCodes(std::shared_ptr<Node> root, std::shared_ptr<std::vector<bool>
 void Tree::callGenerateCodes() {
     auto code = std::make_shared<std::vector<bool>>(this->depth);
     generateCodes(this->root, code, 0);
+}
+
+bool Tree::moveInTree(bool isRight) {
+    /*
+     * Updates the currentNode to move in the tree
+     * Returns true if the next node is a leaf, false instead
+     *
+     */
+    if (isRight) {
+        this->currentNode = this->currentNode->getRightChild();
+    } else {
+        this->currentNode = this->currentNode->getLeftChild();
+    }
+
+    return this->currentNode->isLeaf1();
+}
+
+void Tree::decodeFile(const std::string &filePath, const std::string &outPutFilePath) {
+    /*
+     * Decode the file given in parameter
+     */
+
+    // opens the two files
+    std::ifstream binaryFile(filePath, std::ios::out | std::ios::binary);
+    std::fstream outPutFile;
+    outPutFile.open(outPutFilePath, std::ios::out);
+
+    char charSeq;
+
+    unsigned int characterCount = 0;
+
+    if (binaryFile.is_open() && outPutFile.is_open()) {
+        // while we haven't reached the end of the file
+        while (!binaryFile.eof()) {
+
+            // read byte
+            binaryFile.read(&charSeq, 1);
+            std::bitset<8> currentByte(charSeq);
+
+            // std::cout << currentByte << std::endl;
+
+            // For each bit in the byte
+            for (int i = 7; i >= 0; i--) {
+                // move in the tree and if it's a leaf
+                if (this->moveInTree(currentByte.test(i))) {
+                    characterCount++;
+
+                    printf("%c", this->currentNode->getCharacter()->getCharacterCode());
+                    outPutFile << (char) this->currentNode->getCharacter()->getCharacterCode();
+                    this->currentNode = this->root;
+                }
+
+                // if we decoded all characters of the text break
+                if (characterCount == this->alphabet->getNumCharacters()) {
+                    break;
+                }
+            }
+        }
+    }
+
+    binaryFile.close();
+    outPutFile.close();
 }
