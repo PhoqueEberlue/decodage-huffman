@@ -30,6 +30,8 @@ public:
     void printCharacter() const;
 
     void setCode(const std::shared_ptr<std::vector<bool>> &codeToCopy, unsigned int codeSize);
+
+    [[nodiscard]] const std::vector<bool> &getCode() const;
 };
 
 #endif //DECODAGE_HUFFMAN_CHARACTER_H

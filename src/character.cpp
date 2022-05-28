@@ -18,6 +18,10 @@ void Character::printCharacter() const {
     //std::cout << std::endl;
 }
 
+const std::vector<bool> &Character::getCode() const {
+    return code;
+}
+
 void Character::setCode(const std::shared_ptr<std::vector<bool>> &codeToCopy, unsigned int codeSize) {
     /*
      * Set the huffman code of the character
