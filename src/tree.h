@@ -42,7 +42,9 @@ public:
 
     void decodeFile(const std::string& filePath, const std::string& outPutFilePath);
 
-    float getCompressionRatio() const;
+    [[nodiscard]] long double getCompressionRatio() const;
+
+    [[nodiscard]] float getMeanCodeSize();
 };
 
 #endif //DECODAGE_HUFFMAN_TREE_H

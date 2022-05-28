@@ -225,11 +225,23 @@ void Tree::decodeFile(const std::string &filePath, const std::string &outPutFile
     this->nbByteBinFile = byteCount;
     this->nbByteDecodedFile = this->alphabet->getNumCharacters();
 
+    std::cout << std::endl;
+
     binaryFile.close();
     outPutFile.close();
 }
 
-float Tree::getCompressionRatio() const {
-    std::cout << this->nbByteDecodedFile << std::endl;
-    return 1 - ((float) this->nbByteBinFile / (float) this->nbByteDecodedFile);
+long double Tree::getCompressionRatio() const {
+    return 1 - ((long double) this->nbByteBinFile / this->nbByteDecodedFile);
+}
+
+float Tree::getMeanCodeSize() {
+    unsigned int sumCodeSizes = 0;
+
+    for(const std::shared_ptr<Character>& c: *this->alphabet->getListCharacter()) {
+        sumCodeSizes += c->getCode().size();
+    }
+
+    return (float) sumCodeSizes / (float) this->alphabet->getListCharacter()->size();
+
 }
