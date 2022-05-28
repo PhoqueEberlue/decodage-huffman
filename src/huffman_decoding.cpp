@@ -28,5 +28,6 @@ void mainDecode(const std::string& filePath) {
 
     tree->decodeFile("../texts/textesimple_comp.bin", "../texts/textesimple_res.txt");
 
-    std::cout << tree->getCompressionRatio();
+    std::cout << "Compression ratio: " << tree->getCompressionRatio() << std::endl;
+    std::cout << "Mean code size: " << tree->getMeanCodeSize() << std::endl;
 }
