@@ -1,7 +1,8 @@
 #include "huffman_decoding.h"
 
-int main() {
-    std::string path = "../texts/textesimple_freq.txt";
-    mainDecode(path);
+int main(int argc, char** argv) {
+    if (argc == 3) {
+        mainDecode(argv[1], argv[2]);
+    }
     return 0;
 }

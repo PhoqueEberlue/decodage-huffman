@@ -40,7 +40,7 @@ public:
 
     bool moveInTree(bool isRight);
 
-    void decodeFile(const std::string& filePath, const std::string& outPutFilePath);
+    void decodeFile(const char *filePath);
 
     [[nodiscard]] long double getCompressionRatio() const;
 

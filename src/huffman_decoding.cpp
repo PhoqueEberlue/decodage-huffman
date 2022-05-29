@@ -6,10 +6,10 @@
 #include "alphabet.h"
 #include "tree.h"
 
-void mainDecode(const std::string& filePath) {
+void mainDecode(const char *freqFilePath, const char *binFilePath) {
     std::shared_ptr<Alphabet> alphabet = std::make_shared<Alphabet>();
 
-    alphabet->generateAlphabet(filePath);
+    alphabet->generateAlphabet(freqFilePath);
     alphabet->sortAlphabetByOccurrences();
     alphabet->sortAlphabetByASCIICodes();
     alphabet->printAlphabet();
@@ -26,7 +26,7 @@ void mainDecode(const std::string& filePath) {
     tree->callGenerateCodes();
     alphabet->printAlphabet();
 
-    tree->decodeFile("../texts/textesimple_comp.bin", "../texts/textesimple_res.txt");
+    tree->decodeFile(binFilePath);
 
     std::cout << "Compression ratio: " << tree->getCompressionRatio() << std::endl;
     std::cout << "Mean code size: " << tree->getMeanCodeSize() << std::endl;

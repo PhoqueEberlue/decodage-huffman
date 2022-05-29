@@ -20,13 +20,13 @@ public:
 
     void setNumCharacters(int numCharacters) { this->num_characters = numCharacters; }
 
-    unsigned int getNumCharacters() const;
+    [[nodiscard]] unsigned int getNumCharacters() const;
 
     std::list<std::shared_ptr<Character>> *getListCharacter() { return this->listCharacter; }
 
     void addCharacterToList(const std::shared_ptr<Character>& character) { this->listCharacter->push_front(character);}
 
-    void generateAlphabet(const std::string& filePath);
+    void generateAlphabet(const char *filePath);
 
     void sortAlphabetByOccurrences();
 

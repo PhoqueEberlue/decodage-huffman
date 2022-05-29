@@ -144,6 +144,8 @@ void generateCodes(std::shared_ptr<Node> root, std::shared_ptr<std::vector<bool>
     */
     // if the current node is a no char node
     if (root->getCharacter()->getCharacterCode() == 0) {
+        unsigned int occ = root->getCharacter()->getOccurrences();
+        unsigned int cod = root->getCharacter()->getCharacterCode();
         auto it = code->begin();
         std::advance(it, depth);
         code->insert(it, false);
@@ -177,10 +179,16 @@ bool Tree::moveInTree(bool isRight) {
     return this->currentNode->isLeaf1();
 }
 
-void Tree::decodeFile(const std::string &filePath, const std::string &outPutFilePath) {
+void Tree::decodeFile(const char *filePath) {
     /*
      * Decode the file given in parameter
      */
+
+    char *outExt = "_res.txt";
+    char outPutFilePath[50];
+    strncpy(outPutFilePath, filePath, strlen(filePath) - 9);
+    outPutFilePath[strlen(filePath) - 9] = '\0';
+    strcat(outPutFilePath, outExt);
 
     // opens the two files
     std::ifstream binaryFile(filePath, std::ios::out | std::ios::binary);

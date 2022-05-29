@@ -6,7 +6,7 @@
 #include <fstream>
 #include <iostream>
 
-void Alphabet::generateAlphabet(const std::string &filePath) {
+void Alphabet::generateAlphabet(const char *filePath) {
     /*
      * Generates the Alphabet corresponding to the given file
      * Parameter: the path of the file
@@ -33,16 +33,23 @@ void Alphabet::generateAlphabet(const std::string &filePath) {
             // Get the character
             std::basic_string<char> current_char = line.substr(0, 1);
             const char *conv_to_char = current_char.c_str();
-            unsigned int character_code = int(*conv_to_char);
-            std::cout << character_code << std::endl;
+            unsigned int characterCode = int(*conv_to_char);
+            std::cout << characterCode << std::endl;
 
+            unsigned int occurrences;
             // Get the number of occurrences of the character
-            unsigned int occurrences = stoul(line.substr(2, line.length()));
+            if (characterCode == 0) {
+                getline(alphabetFile, line);
+                characterCode = 10;
+                occurrences = stoul(line.substr(1, line.length()));
+            } else {
+                occurrences = stoul(line.substr(2, line.length()));
+            }
             std::cout << occurrences << std::endl;
 
             // Create a new Character class and adds it to the list
-            std::shared_ptr<Character> new_char = std::make_unique<Character>(character_code, occurrences);
-            this->addCharacterToList(new_char);
+            std::shared_ptr<Character> newChar = std::make_shared<Character>(characterCode, occurrences);
+            this->addCharacterToList(newChar);
         }
     } else {
         printf("The specified path didn't match any file");
@@ -74,7 +81,7 @@ void Alphabet::printAlphabet() {
     /*
      * Prints each Character of the Alphabet
      */
-    for (const std::shared_ptr<Character>& character: *this->listCharacter) {
+    for (const std::shared_ptr<Character> &character: *this->listCharacter) {
         character->printCharacter();
         printf("\n");
     }

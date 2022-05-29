@@ -7,6 +7,6 @@
 
 #include <string>
 
-void mainDecode(const std::string& filePath);
+void mainDecode(const char *freqFilePath, const char *binFilePath);
 
 #endif //DECODAGE_HUFFMAN_HUFFMAN_DECODING_H
