@@ -1,5 +1,5 @@
 # decodage-huffman
-Projet étudiant de compression de données par codage de Huffman.
+Projet étudiant de décompression de données par décodage de Huffman.
 
 ## Compilation
 
